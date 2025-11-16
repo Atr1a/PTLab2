@@ -6,7 +6,8 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-    startCommand: bash -c "python manage.py migrate && gunicorn tplab2.wsgi:application"
+      python manage.py migrate
+    startCommand: gunicorn tplab2.wsgi:application --bind 0.0.0.0:10000
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: tplab2.settings
