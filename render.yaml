@@ -6,9 +6,7 @@ services:
     buildCommand: |
       pip install -r requirements.txt
       python manage.py collectstatic --noinput
-    startCommand: |
-      startCommand: gunicorn app:app --preload
-      bash -c "python manage.py migrate &&
+    startCommand: bash -c "python manage.py migrate && gunicorn tplab2.wsgi:application"
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: tplab2.settings
@@ -16,8 +14,6 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
-      - key: WEB_CONCURRENCY
-        value: 4
       - key: DATABASE_URL
         fromDatabase:
           name: postgres
