@@ -78,20 +78,22 @@ WSGI_APPLICATION = 'tplab2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# Database
+# ------------------------------
+
+DEBUG = True
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'django_db',
-        'USER' : 'postgres',
-        'PASSWORD' : os.environ['DATABASE_PASSWORD'] if 'DATABASE_PASSWORD' in os.environ else '',
-        'HOST' : 'localhost',
-        'PORT' : '5432',
+        'NAME': 'postgres',
+        'USER': 'postgres',
+        'PASSWORD': 'Dima.red777',
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
-DATABASE_URL = os.environ.get('DATABASE_URL')
-db_from_env = dj_database_url.config(default=DATABASE_URL, conn_max_age=500, ssl_require=True)
-DATABASES['default'].update(db_from_env)
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
