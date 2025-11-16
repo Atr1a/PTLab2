@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: tplab2-app
+    name: PTLab2
     runtime: python
     plan: free
     buildCommand: |
