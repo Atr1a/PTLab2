@@ -8,6 +8,7 @@ services:
       python manage.py collectstatic --noinput
     startCommand: |
       startCommand: gunicorn app:app --preload
+      bash -c "python manage.py migrate &&
     envVars:
       - key: DJANGO_SETTINGS_MODULE
         value: tplab2.settings
