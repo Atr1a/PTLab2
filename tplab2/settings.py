@@ -4,12 +4,10 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# SECURITY
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
 
-# Applications
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'django.contrib.admin',
@@ -22,7 +20,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',  # для отдачи статики
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,15 +49,15 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'tplab2.wsgi.application'
 
-# Database
+
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),  # Render подставит postgres
+        default=os.getenv("DATABASE_URL"),
         conn_max_age=600
     )
 }
 
-# Password validation
+
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -67,14 +65,14 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Localization
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'Europe/Volgograd'
 USE_I18N = True
 USE_L10N = True
 USE_TZ = False
 
-# Static files
+
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
