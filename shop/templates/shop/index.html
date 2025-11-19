@@ -1,26 +1,21 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <meta name="viewport" content="width=device-width" />
-    <title>Товары</title>
-</head>
-<body>
+<h1>Магазин канцтоваров</h1>
+
+{% if user.is_authenticated %}
+  <p>Привет, {{ user.username }}!</p>
+{% else %}
+  <a href="{% url 'register' %}">Зарегистрироваться</a>
+{% endif %}
+
+{% for p in products %}
     <div>
-        <h3>Список</h3>
-        <table>
-            <tr>
-                <td><p>Наименование</p></td>
-                <td><p>Цена</p></td>
-                <td></td>
-            </tr>
-            {% for p in products %}
-                <tr>
-                    <td><p>{{ p.name }}</p></td>
-                    <td><p>{{ p.price }}</p></td>
-                    <td><p><a href="/buy/{{ p.id }}">Купить</a></p></td>
-                </tr>
-            {% endfor %}
-        </table>
+        <h3>{{ p.name }}</h3>
+        <p>Цена: {{ p.price }}</p>
+
+        {% if p.discounted_price %}
+            <p>Со скидкой: {{ p.discounted_price }}</p>
+        {% endif %}
+
+        <a href="{% url 'buy' p.id %}">Купить</a>
     </div>
-</body>
-</html>
+{% endfor %}
+

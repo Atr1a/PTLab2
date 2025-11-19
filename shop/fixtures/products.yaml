@@ -1,15 +1,17 @@
 - model: shop.product
   pk: 1
   fields:
-    name: Стол
-    price: 2000
+    name: Тетрадь 48 листов
+    price: 45
+
 - model: shop.product
   pk: 2
   fields:
-    name: Стул
-    price: 1000
+    name: Ручка шариковая синяя
+    price: 25
+
 - model: shop.product
   pk: 3
   fields:
-    name: Табурет
-    price: 500
+    name: Карандаш графитовый HB
+    price: 18

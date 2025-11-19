@@ -54,7 +54,7 @@ WSGI_APPLICATION = 'tplab2.wsgi.application'
 # Database
 DATABASES = {
     'default': dj_database_url.config(
-        default=os.getenv("DATABASE_URL"),  # Render подставит postgres
+        default=os.getenv("DATABASE_URL", "postgres://postgres:Dima.red777@localhost:5432/django_db2"),
         conn_max_age=600
     )
 }
