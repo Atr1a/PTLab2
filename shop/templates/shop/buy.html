@@ -1,0 +1,15 @@
+<h1>Покупка: {{ product.name }}</h1>
+
+<p>Цена: {{ product.price }}</p>
+{% if discounted_price %}
+    <p>Цена со скидкой: {{ discounted_price }}</p>
+{% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    <label for="address">Адрес доставки:</label>
+    <input type="text" name="address" id="address" required>
+    <button type="submit">Купить</button>
+</form>
+
+<p><a href="{% url 'index' %}">Вернуться в магазин</a></p>

@@ -1,38 +1,54 @@
 from django.test import TestCase
-from shop.models import Product, Purchase
-from datetime import datetime
+from django.contrib.auth.models import User
+from shop.models import Profile, Product, Purchase
+from decimal import Decimal
 
-class ProductTestCase(TestCase):
+
+class ModelsTest(TestCase):
     def setUp(self):
-        Product.objects.create(name="book", price="740")
-        Product.objects.create(name="pencil", price="50")
+        self.user = User.objects.create_user(
+            username="atria",
+            password="12345",
+            email="a@a.com"
+        )
+        self.profile = Profile.objects.get(user=self.user)
+        self.profile.birthday = "2000-05-05"
+        self.profile.save()
 
-    def test_correctness_types(self):                   
-        self.assertIsInstance(Product.objects.get(name="book").name, str)
-        self.assertIsInstance(Product.objects.get(name="book").price, int)
-        self.assertIsInstance(Product.objects.get(name="pencil").name, str)
-        self.assertIsInstance(Product.objects.get(name="pencil").price, int)        
+        self.product = Product.objects.create(
+            name="Test Product",
+            price=Decimal("199.99")
+        )
 
-    def test_correctness_data(self):
-        self.assertTrue(Product.objects.get(name="book").price == 740)
-        self.assertTrue(Product.objects.get(name="pencil").price == 50)
+    def test_profile_str(self):
+        self.assertEqual(str(self.profile), "atria")
 
+    def test_product_str(self):
+        self.assertEqual(str(self.product), "Test Product")
 
-class PurchaseTestCase(TestCase):
-    def setUp(self):
-        self.product_book = Product.objects.create(name="book", price="740")
-        self.datetime = datetime.now()
-        Purchase.objects.create(product=self.product_book,
-                                person="Ivanov",
-                                address="Svetlaya St.")
+    def test_purchase_str(self):
+        purchase = Purchase.objects.create(
+            person=self.user,
+            address="Somewhere",
+            product=self.product,
+            price=self.product.price
+        )
+        self.assertEqual(str(purchase), "atria — Test Product")
 
-    def test_correctness_types(self):
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).person, str)
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).address, str)
-        self.assertIsInstance(Purchase.objects.get(product=self.product_book).date, datetime)
+    def test_profile_birthday_saved(self):
+        self.assertEqual(str(self.profile.birthday), "2000-05-05")
 
-    def test_correctness_data(self):
-        self.assertTrue(Purchase.objects.get(product=self.product_book).person == "Ivanov")
-        self.assertTrue(Purchase.objects.get(product=self.product_book).address == "Svetlaya St.")
-        self.assertTrue(Purchase.objects.get(product=self.product_book).date.replace(microsecond=0) == \
-            self.datetime.replace(microsecond=0))
+    def test_product_price_decimal(self):
+        self.assertIsInstance(self.product.price, Decimal)
+
+    def test_purchase_relations(self):
+        purchase = Purchase.objects.create(
+            person=self.user,
+            address="City",
+            product=self.product,
+            price=self.product.price
+        )
+
+        self.assertEqual(purchase.person.username, "atria")
+        self.assertEqual(purchase.product.name, "Test Product")
+        self.assertEqual(purchase.price, Decimal("199.99"))

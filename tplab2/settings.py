@@ -4,9 +4,11 @@ import dj_database_url
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+
 SECRET_KEY = os.getenv("SECRET_KEY", "fallback-secret-key")
 DEBUG = True
 ALLOWED_HOSTS = ["*"]
+
 
 INSTALLED_APPS = [
     'shop.apps.ShopConfig',
